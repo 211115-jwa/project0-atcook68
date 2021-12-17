@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Bike {
 	private int id;
 	private int year;
-	private String name;
+	private String brand;
 	private String color;
 	
 	public int getId() {
@@ -21,10 +21,10 @@ public class Bike {
 		this.year = year;
 	}
 	public String getName() {
-		return name;
+		return brand;
 	}
 	public void setName(String name) {
-		this.name = name;
+		this.brand = brand;
 	}
 	public String getColor() {
 		return color;
@@ -34,7 +34,7 @@ public class Bike {
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(color, id, name, year);
+		return Objects.hash(color, id, brand, year);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -45,12 +45,12 @@ public class Bike {
 		if (getClass() != obj.getClass())
 			return false;
 		Bike other = (Bike) obj;
-		return Objects.equals(color, other.color) && id == other.id && Objects.equals(name, other.name)
+		return Objects.equals(color, other.color) && id == other.id && Objects.equals(brand, other.brand)
 				&& year == other.year;
 	}
 	@Override
 	public String toString() {
-		return "Bike [id=" + id + ", year=" + year + ", name=" + name + ", color=" + color + "]";
+		return "Bike [id=" + id + ", year=" + year + ", brand=" + brand + ", color=" + color + "]";
 	}
 	
 }

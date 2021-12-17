@@ -1,5 +1,10 @@
 package com.revature.data;
 
-public interface BikeDAO {
+import java.util.Set;
 
+import com.revature.models.Bike;
+
+public interface BikeDAO {
+	public Set<Bike> getByColor(String color);
+	public Set<Bike> getByBrand(String brand);
 }
