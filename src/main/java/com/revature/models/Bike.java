@@ -20,10 +20,10 @@ public class Bike {
 	public void setYear(int year) {
 		this.year = year;
 	}
-	public String getName() {
+	public String getBrand() {
 		return brand;
 	}
-	public void setName(String name) {
+	public void setBrand(String brand) {
 		this.brand = brand;
 	}
 	public String getColor() {

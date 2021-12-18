@@ -2,6 +2,7 @@ package com.revature.data.postgres;
 import java.util.Set;
 
 import com.revature.data.BikeDAO;
+import com.revature.models.Bike;
 import com.revature.util.ConnectionUtil;
 import java.util.List;
 import java.sql.Connection;
@@ -25,9 +26,9 @@ public class BikePostgres implements BikeDAO {
 				
 				String[] keys = {"id"};
 				PreparedStatement prepStmt = conn.prepareStatement(sql, keys);
-				prepStmt.setString(1, dataToAdd.getBikeBrand());
-				prepStmt.setString(2, dataToAdd.getBikeColor());
-				prepStmt.setString(3, dataToAdd.getBikeYear());
+				prepStmt.setString(1, dataToAdd.getBrand());
+				prepStmt.setString(2, dataToAdd.getColor());
+				prepStmt.setInt(3, dataToAdd.getYear());
 				
 				prepStmt.executeUpdate();
 				ResultSet resultSet = prepStmt.getGeneratedKeys();
@@ -37,7 +38,7 @@ public class BikePostgres implements BikeDAO {
 				}else {
 					conn.rollback();   // or not
 				}
-			catch (SQLException e) {
+		}catch (SQLException e) {
 				e.printStackTrace();
 			}
 		return createId;
