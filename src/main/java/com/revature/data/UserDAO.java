@@ -1,5 +1,7 @@
 package com.revature.data;
 
-public interface UserDAO {
+import org.eclipse.jetty.server.Authentication.User;
+
+public interface UserDAO extends GenericDAO<User> {
 
 }
