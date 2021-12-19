@@ -17,7 +17,7 @@ package com.revature.services;
 	import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.revature.data.BikeDAO;
-import com.revature.data.PersonDAO;	
+import com.revature.data.UserDAO;	
 	
 	
 	// telling JUnit that we're using 
@@ -26,7 +26,7 @@ public class BikeServiceTest {
 	@Mock
 	private BikeDAO bikeDao;
 	@Mock
-	private PersonDAO personDao;
+	private UserDAO personDao;
 		
 		@Test
 		public void searchByBrandExists() {

@@ -3,7 +3,10 @@ package com.revature.app;
 import io.javalin.Javalin;
 import io.javalin.http.HttpCode;
 import static io.javalin.apibuilder.ApiBuilder.*; // static path import
-
+import static io.javalin.apibuilder.ApiBuilder.get;
+import static io.javalin.apibuilder.ApiBuilder.path;
+import static io.javalin.apibuilder.ApiBuilder.post;
+import static io.javalin.apibuilder.ApiBuilder.put;
 import com.revature.models.Bike;
 import com.revature.service.UserService;
 import com.revature.service.UserServiceImpl;
@@ -16,13 +19,12 @@ public class App {
 	private static UserService userServ = new UserServiceImpl();
 
 	public static void main(String[] args) {
-		
-		Javalin app = Javalin.create().start(8080);
+		Javalin app = Javalin.create();
 		
 		app.start();
 		app.routes(() -> {
 			
-			path("/bike", () -> {;
+			path("/bike", () -> {
 			
 				get(ctx -> {
 					Set<Bike> bike = userServ.viewAvailableBikes();
@@ -31,8 +33,8 @@ public class App {
 					}else {
 						ctx.result("No available bikes");
 					}
-		});
-				post(ctx ->{
+		
+				post(ctx -> {
 					Bike newBike = ctx.bodyAsClass(Bike.class);
 					if (newBike != null) {
 						userServ.addNewBike(newBike);
@@ -45,7 +47,7 @@ public class App {
 					get(ctx ->{
 						try {
 							int bikeId = Integer.parseInt(ctx.pathParam("id"));
-							Bike bike = userServe.getBikeById(bikeId);
+							Bike bike = userServ.getBikeById(bikeId);
 							if(bike != null)
 								ctx.json(bike);
 							else
@@ -98,10 +100,13 @@ public class App {
 							Set<Bike> bikesFound = userServ.viewAvailableBikes();
 							ctx.json(bikesFound);
 						}
-						
 					});
 				});
-		
+			});
+		});
+}}		
+				
+				
 	
 	/*
 	 what endpoints do we need?

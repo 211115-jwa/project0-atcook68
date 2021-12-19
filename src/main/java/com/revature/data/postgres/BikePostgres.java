@@ -39,4 +39,40 @@ public class BikePostgres implements BikeDAO {
 		}
 		return createId;
 	}
+
+	@Override
+	public Set<Bike> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(Bike dataToUpdate) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Bike getById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(Bike dataToDelete) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Set<Bike> getByColor(String color) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<Bike> getByBrand(String brand) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
