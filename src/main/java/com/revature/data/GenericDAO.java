@@ -7,6 +7,6 @@ public interface GenericDAO<D> {
 	public Set<D> getAll();
 	public void update(D dataToUpdate);
 	public int create(D dataToAdd);
-	public D getById(int id);
+	public int getById(int id);
 	public void delete(D dataToDelete);
 }

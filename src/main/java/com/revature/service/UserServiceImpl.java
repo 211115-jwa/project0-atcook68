@@ -12,7 +12,7 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public int addNewBike( Bike newBike) {
-		return BikeDAO.create(newBike);
+		return bikeDao.create(newBike);
 		
 	@Override
 	public Bike updateBike(Bike bikeToEdit) {
