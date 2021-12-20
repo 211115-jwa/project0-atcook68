@@ -17,7 +17,8 @@ package com.revature.services;
 	import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.revature.data.BikeDAO;
-import com.revature.data.UserDAO;	
+import com.revature.data.UserDAO;
+import com.revature.models.Bike;	
 	
 	
 	// telling JUnit that we're using 
@@ -32,6 +33,19 @@ public class BikeServiceTest {
 		public void searchByBrandExists() {
 			String species = "schwin";		// bike brand
 			
+		@Test
+		public void getByBrandWhenBrandExists() {
+			String brandinput = "bmx";
+			int amountOfbmx = 1
+			Set<Bike> bikeOutput = bikeDao.getByBrand(brandinput);
+			assertEquals(amountOfbmx, bikeOutput.size());
+		}
+			
+			
+			
+			
+			
+	/*		
 			when(BikeDAO.getByStatus("Available")).thenReturn(mockAvailableBikes);
 			
 			// Trying to see if the (species) are not 
@@ -40,5 +54,6 @@ public class BikeServiceTest {
 			for (Bike bike : actual) {		// Set
 				if (!bike.getBrand().equals(schwin))
 					onlyCats = false;
+	*/
 	}
 }

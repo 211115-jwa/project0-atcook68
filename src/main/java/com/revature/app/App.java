@@ -86,8 +86,7 @@ public class App {
 							
 							ctx.json(bikesfound);
 							}
-						
-					});
+						});
 				});
 				path("/bike?Color=",() ->{
 					get(ctx ->{

@@ -32,7 +32,7 @@ public class BikePostgres implements BikeDAO {
 				createId = resultSet.getInt("id");
 				conn.commit(); // commits the database changes
 			} else {
-				conn.rollback(); // or not
+				conn.rollback(); // or rolls it back
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
