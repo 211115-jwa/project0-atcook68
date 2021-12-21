@@ -14,18 +14,23 @@ import java.sql.Statement;
 public class BikePostgres implements BikeDAO {
 	private ConnectionUtil connUtil = ConnectionUtil.getConnectionUtil();
 
+	@Override
 	public int create(Bike dataToAdd) {
 		int createId = 0;
-		try (Connection conn = connUtil.getConnection()) {
+
+		try (Connection conn = connUtil.getConnection()) { // try with resources
 			conn.setAutoCommit(false);
-			String sql = "Insert into bike (id, bike_year, bike_brand, bike_color)" + "values (default, ?,?,?,?)";
+			String sql = "Insert into bikes (id,year,brand,model,color)" + "values (default, ?,?,?,?)";
 
-			String[] keys = { "id" };
-			PreparedStatement prepStmt = conn.prepareStatement(sql, keys);
-			prepStmt.setString(1, dataToAdd.getBrand());
-			prepStmt.setString(2, dataToAdd.getColor());
-			prepStmt.setInt(3, dataToAdd.getYear());
+			String[] key = { "id" };
+			PreparedStatement prepStmt = conn.prepareStatement(sql, key);
+			// setting the values for the sql insertions
+			prepStmt.setInt(1, dataToAdd.getYear());
+			prepStmt.setString(2, dataToAdd.getBrand());
+			prepStmt.setString(3, dataToAdd.getModel());
+			prepStmt.setString(4, dataToAdd.getColor());
 
+			// then the update can execute
 			prepStmt.executeUpdate();
 			ResultSet resultSet = prepStmt.getGeneratedKeys();
 			if (resultSet.next()) {
@@ -35,33 +40,83 @@ public class BikePostgres implements BikeDAO {
 				conn.rollback(); // or rolls it back
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			e.printStackTrace(); // displays the stack trace
 		}
 		return createId;
 	}
 
 	@Override
-	public Set<Bike> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public Bike getById(int id) {
+		Bike bike = null;
+		try (Connection conn = connUtil.getConnection()) {
+			String sql = "select * from bikes where id=?";
+			PreparedStatement prepStmt = conn.prepareStatement(sql);
+			prepStmt.setInt(1, id);
+
+			ResultSet resultSet = prepStmt.executeQuery();
+			if (resultSet.next()) {
+				bike = new Bike();
+				bike.setId(id);
+				bike.setYear(resultSet.getInt("year"));
+				bike.setBrand(resultSet.getString("brand"));
+				bike.setModel(resultSet.getString("model"));
+				bike.setModel(resultSet.getString("color"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bike;
 	}
 
 	@Override
 	public void update(Bike dataToUpdate) {
-		// TODO Auto-generated method stub
-		
-	}
+		try (Connection conn = connUtil.getConnection()) {
+			conn.setAutoCommit(false);
+			String sql = "update bikes set " + "year=?,brand=?,model=?,color=? " + "where id=?";
 
-	@Override
-	public Bike getById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+			PreparedStatement prepStmt = conn.prepareStatement(sql);
+			prepStmt.setInt(1, dataToUpdate.getYear());
+			prepStmt.setString(2, dataToUpdate.getBrand());
+			prepStmt.setString(3, dataToUpdate.getModel());
+			prepStmt.setString(4, dataToUpdate.getColor());
+			prepStmt.setInt(5, dataToUpdate.getId());
+			int rowsAffected = prepStmt.executeUpdate();
+			if (rowsAffected == 1) {
+				conn.commit();
+			} else {
+				conn.rollback();
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void delete(Bike dataToDelete) {
 		// TODO Auto-generated method stub
-		
+		try (Connection conn = connUtil.getConnection()){
+			conn.setAutoCommit(false);
+			String sql = "delete from bikes "
+					+ "where id=?";
+			PreparedStatement prepStmt = conn.prepareStatement(sql);
+			prepStmt.setInt(1, dataToDelete.getId());
+			int rowsAffected = prepStmt.executeUpdate();
+			
+			if (rowsAffected == 1) {
+				conn.commit();
+			}else {
+					conn.rollback();
+				}
+			}
+		catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
 	}
 
 	@Override
@@ -72,6 +127,12 @@ public class BikePostgres implements BikeDAO {
 
 	@Override
 	public Set<Bike> getByBrand(String brand) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<Bike> getByModel(String model) {
 		// TODO Auto-generated method stub
 		return null;
 	}

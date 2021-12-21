@@ -7,6 +7,7 @@ public class Bike {
 	private int year;
 	private String brand;
 	private String color;
+	private String model;
 	
 	public int getId() {
 		return id;
@@ -51,6 +52,18 @@ public class Bike {
 	@Override
 	public String toString() {
 		return "Bike [id=" + id + ", year=" + year + ", brand=" + brand + ", color=" + color + "]";
+	}
+	/**
+	 * @return the model
+	 */
+	public String getModel() {
+		return model;
+	}
+	/**
+	 * @param model the model to set
+	 */
+	public void setModel(String model) {
+		this.model = model;
 	}
 	
 }

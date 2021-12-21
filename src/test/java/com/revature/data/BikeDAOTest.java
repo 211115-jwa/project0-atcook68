@@ -24,4 +24,9 @@ public class BikeDAOTest {
 		Set<com.revature.models.Bike> givenOutput = bikeDao.getAll();
 		assertNotNull(givenOutput);
 	}
+	@Test
+	public void getByIdWhenIdDoesNotExist() {
+		int idInput = -1;
+		
+	}
 }

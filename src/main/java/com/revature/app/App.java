@@ -20,7 +20,7 @@ public class App {
 		Javalin app = Javalin.create();
 		
 		app.start();
-		app.routes(() -> {
+		app.routes(() -> {		// nesting the paths to make it cleaner
 			
 			path("/bike", () -> {
 			
@@ -42,7 +42,7 @@ public class App {
 						ctx.status(HttpStatus.BAD_REQUEST_400);
 					}
 					});
-				path("bike/{id}",() ->{
+				path("bike/by/{id}",() ->{
 					get(ctx ->{
 						try {
 							int bikeId = Integer.parseInt(ctx.pathParam("id"));
