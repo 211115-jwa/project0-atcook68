@@ -22,7 +22,7 @@ public class BikePostgres implements BikeDAO {
 
 		try (Connection conn = connUtil.getConnection()) { // try with resources
 			conn.setAutoCommit(false);
-			String sql = "Insert into bikes (id,year,brand,model,color)" + "values (default, ?,?,?,?)";
+			String sql = "Insert into bikes (id,year,brand,model,color,status)" + "values (default, ?,?,?,?,?)";
 
 			String[] key = { "id" };
 			PreparedStatement prepStmt = conn.prepareStatement(sql, key);
@@ -31,6 +31,7 @@ public class BikePostgres implements BikeDAO {
 			prepStmt.setString(2, dataToAdd.getBrand());
 			prepStmt.setString(3, dataToAdd.getModel());
 			prepStmt.setString(4, dataToAdd.getColor());
+			prepStmt.setString(5, dataToAdd.getStatus());
 
 			// then the update can execute
 			prepStmt.executeUpdate();
@@ -63,6 +64,7 @@ public class BikePostgres implements BikeDAO {
 				bike.setBrand(resultSet.getString("brand"));
 				bike.setModel(resultSet.getString("model"));
 				bike.setModel(resultSet.getString("color"));
+				bike.setStatus(resultSet.getString("available"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -75,7 +77,7 @@ public class BikePostgres implements BikeDAO {
 	public void update(Bike dataToUpdate) {
 		try (Connection conn = connUtil.getConnection()) {
 			conn.setAutoCommit(false);
-			String sql = "update bikes set " + "year=?,brand=?,model=?,color=? " + "where id=?";
+			String sql = "update bikes set " + "year=?,brand=?,model=?,color=?,status=? " + "where id=?";
 
 			PreparedStatement prepStmt = conn.prepareStatement(sql);
 			prepStmt.setInt(1, dataToUpdate.getYear());
@@ -133,30 +135,128 @@ public class BikePostgres implements BikeDAO {
 				bike.setBrand(resultSet.getString("brand"));
 				bike.setModel(resultSet.getString("model"));
 				bike.setColor(resultSet.getString("color"));
-
+				bike.setStatus(resultSet.getString("available"));
+				allBikes.add(bike);
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-
-		// TODO Auto-generated method stub
-		return null;
+		return allBikes;
 	}
 
 	@Override
 	public Set<Bike> getByBrand(String brand) {
+		Set<Bike> allBikes = new HashSet<>();
+		try (Connection conn = connUtil.getConnection()) {
+			String sql = "select * from bikes " + "where brand=?";
+			Statement stmt = conn.createStatement();
+			ResultSet resultSet = stmt.executeQuery(sql);
+			while (resultSet.next()) {
+				Bike bike = new Bike();
+				bike.setId(resultSet.getInt("id"));
+				bike.setYear(resultSet.getInt("year"));
+				bike.setBrand(resultSet.getString("brand"));
+				bike.setModel(resultSet.getString("model"));
+				bike.setColor(resultSet.getString("color"));
+				bike.setStatus(resultSet.getString("available"));
+				allBikes.add(bike);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<Bike> getByColor(String color) {
-		// TODO Auto-generated method stub
-		return null;
+		return allBikes;
 	}
 
 	@Override
 	public Set<Bike> getByModel(String model) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<Bike> allBikes = new HashSet<>();
+		try (Connection conn = connUtil.getConnection()) {
+			String sql = "select * from bikes " + "where model=?";
+			Statement stmt = conn.createStatement();
+			ResultSet resultSet = stmt.executeQuery(sql);
+			while (resultSet.next()) {
+				Bike bike = new Bike();
+				bike.setId(resultSet.getInt("id"));
+				bike.setYear(resultSet.getInt("year"));
+				bike.setBrand(resultSet.getString("brand"));
+				bike.setModel(resultSet.getString("model"));
+				bike.setColor(resultSet.getString("color"));
+				bike.setStatus(resultSet.getString("available"));
+				allBikes.add(bike);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return allBikes;
 	}
+
+	@Override
+	public Set<Bike> getByColor(String color) {
+		Set<Bike> allBikes = new HashSet<>();
+		try (Connection conn = connUtil.getConnection()) {
+			String sql = "select * from bikes " + "where color=?";
+			Statement stmt = conn.createStatement();
+			ResultSet resultSet = stmt.executeQuery(sql);
+			while (resultSet.next()) {
+				Bike bike = new Bike();
+				bike.setId(resultSet.getInt("id"));
+				bike.setYear(resultSet.getInt("year"));
+				bike.setBrand(resultSet.getString("brand"));
+				bike.setModel(resultSet.getString("model"));
+				bike.setColor(resultSet.getString("color"));
+				bike.setStatus(resultSet.getString("available"));
+				allBikes.add(bike);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return allBikes;
+	}
+
+	@Override
+	public Bike getById() {
+		/*
+		 * Bike bike = null; try (Connection conn = connUtil.getConnection()) { String
+		 * sql = "select * from bikes where id=?"; PreparedStatement prepStmt =
+		 * conn.prepareStatement(sql); prepStmt.setInt(1, id);
+		 * 
+		 * ResultSet resultSet = prepStmt.executeQuery(); if (resultSet.next()) { bike =
+		 * new Bike(); bike.setId(id); bike.setYear(resultSet.getInt("year"));
+		 * bike.setBrand(resultSet.getString("brand"));
+		 * bike.setModel(resultSet.getString("model"));
+		 * bike.setModel(resultSet.getString("color")); } } catch (SQLException e) { //
+		 * TODO Auto-generated catch block e.printStackTrace(); }
+		 */return null;
+	}
+
+	@Override
+	public Set<Bike> getByStatus(String status) {
+		Set<Bike> allBikes = new HashSet<>();
+
+		try (Connection conn = connUtil.getConnection()) {
+			String sql = "select * from bikes where status=?";
+			Statement stmt = conn.createStatement();
+			ResultSet resultSet = stmt.executeQuery(sql);
+
+			while (resultSet.next()) {
+				Bike bike = new Bike();
+				bike.setId(resultSet.getInt("id"));
+				bike.setYear(resultSet.getInt("year"));
+				bike.setBrand(resultSet.getString("brand"));
+				bike.setModel(resultSet.getString("model"));
+				bike.setColor(resultSet.getString("color"));
+				bike.setStatus(resultSet.getString("available"));
+				allBikes.add(bike);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return allBikes;
+	}
+
 }

@@ -8,6 +8,7 @@ public class Bike {
 	private String brand;
 	private String color;
 	private String model;
+	private String status;
 	
 	public int getId() {
 		return id;
@@ -32,6 +33,9 @@ public class Bike {
 	}
 	public void setColor(String color) {
 		this.color = color;
+		}
+	public String getStatus() {
+		return status;
 	}
 	@Override
 	public int hashCode() {
@@ -64,6 +68,10 @@ public class Bike {
 	 */
 	public void setModel(String model) {
 		this.model = model;
+	}
+	public void setStatus(String string) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -6,11 +6,18 @@ import com.revature.models.Bike;
 
 public interface BikeDAO extends GenericDAO<Bike> {
 
-	public Set<Bike> getByStatus(String status);
+	
 
 	int create(Bike dataToAdd);
 
 	void update(Bike dataToUpdate);
+
+	 public Bike getById();
+	 
+	 public Set<Bike> getByStatus(String status);
+	 
+	 public Set<Bike> getAll();
+
 }
 
 /*

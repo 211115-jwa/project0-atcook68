@@ -10,6 +10,7 @@ public class UserServiceImpl implements UserService{
 
 	private BikeDAO bikeDao = new BikePostgres();
 	
+	
 	@Override
 	public Bike getBikeById(int id) {
 		return bikeDao.getById(id);
@@ -26,12 +27,6 @@ public class UserServiceImpl implements UserService{
 	public Set<Bike> getBikeByColor(String color){
 		return bikeDao.getByColor(color);
 	}
-	
-	@Override
-	public Set<Bike> viewAvailableBikes() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	@Override
 	public Bike updateBike(Bike BikeToEdit) {
 		// TODO Auto-generated method stub
@@ -42,4 +37,17 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public Set<Bike> getBikeByStatus(String bikeStatus) {
+		return bikeDao.getByStatus("Available");
+	}
+	@Override
+	public Set<Bike> viewAvailableBikes() {
+		return bikeDao.getByStatus("Available");
+	}
+	@Override
+	public Set<Bike> getAll() {
+		return bikeDao.getAll();
+	}
+
 }

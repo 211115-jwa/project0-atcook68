@@ -1,5 +1,6 @@
 package com.revature.data;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -29,4 +30,11 @@ public class BikeDAOTest {
 		int idInput = -1;
 		
 	}
+	@Test
+	public void getByIdWhenIdExistsTest() {
+		int idInput = 1;
+		Bike idOutput = bikeDao.getById(idInput);
+		assertEquals(1, idOutput.getId());
+	}
+	
 }

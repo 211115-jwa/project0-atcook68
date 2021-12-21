@@ -30,8 +30,8 @@ public class App {
 						Set<Bike> bikeFound = userServ.getBikeByBrand(brandSearch);
 						ctx.json(bikeFound);
 					} else {
-						Set<Bike> bike = userServ.viewAvailableBikes();
-						ctx.result("No available bikes");
+						Set<Bike> bike = userServ.getAll();
+						ctx.json(bike);
 					}
 				});
 				post(ctx -> {
@@ -102,11 +102,33 @@ public class App {
 						}
 					});
 				});
+				path("/bike?Model=", () -> {
+					get(ctx -> {
+						String bikeModel = ctx.queryParam("bikeModel");
+						if (bikeModel != null && !"".equals(bikeModel)) {
+							Set<Bike> bikesFound = userServ.getBikeByModel(bikeModel);
+							ctx.json(bikesFound);
+						} else {
+							Set<Bike> bikesFound = userServ.viewAvailableBikes();
+							ctx.json(bikesFound);
+						}
+					});
+				});
+				path("/bike?Status=", () -> {
+					get(ctx -> {
+						String bikeStatus = ctx.queryParam("bikeStatus");
+						if (bikeStatus != null && !"".equals(bikeStatus)) {
+							Set<Bike> bikesFound = userServ.getBikeByStatus(bikeStatus);
+							ctx.json(bikesFound);
+						} else {
+							Set<Bike> bikesFound = userServ.viewAvailableBikes();
+							ctx.json(bikesFound);
+						}
 			});
 		});
-	}
-}
-
+	});
+});
+		}}
 /*
  * what endpoints do we need? in other words, what actions would a user need to
  * do and what address + HTTP method combo would represent each of those
