@@ -18,83 +18,85 @@ public class App {
 
 	public static void main(String[] args) {
 		Javalin app = Javalin.create();
-		
+
 		app.start();
-		app.routes(() -> {		// nesting the paths to make it cleaner
-			
+		app.routes(() -> { // nesting the paths to make it cleaner
+
 			path("/bike", () -> {
-			
+
 				get(ctx -> {
 					String brandSearch = ctx.queryParam("brand");
 					if (brandSearch != null && !"".equals(brandSearch)) {
 						Set<Bike> bikeFound = userServ.getBikeByBrand(brandSearch);
 						ctx.json(bikeFound);
-					}else {
+					} else {
 						Set<Bike> bike = userServ.viewAvailableBikes();
 						ctx.result("No available bikes");
-					}});
+					}
+				});
 				post(ctx -> {
 					Bike newBike = ctx.bodyAsClass(Bike.class);
 					if (newBike != null) {
 						userServ.addNewBike(newBike);
 						ctx.status(HttpStatus.CREATED_201);
-					}else {
+					} else {
 						ctx.status(HttpStatus.BAD_REQUEST_400);
 					}
-					});
-				path("bike/by/{id}",() ->{
-					get(ctx ->{
+				});
+				path("bike/by/{id}", () -> {
+					get(ctx -> {
 						try {
 							int bikeId = Integer.parseInt(ctx.pathParam("id"));
 							Bike bike = userServ.getBikeById(bikeId);
-							if(bike != null)
+							if (bike != null)
 								ctx.json(bike);
 							else
 								ctx.status(404);
-						}catch (NumberFormatException e) {
+						} catch (NumberFormatException e) {
 							ctx.status(400);
 						}
 					});
-				put(ctx ->{
-					try {
-						int bikeId = Integer.parseInt(ctx.pathParam("id"));
-						Bike bikeToEdit = ctx.bodyAsClass(Bike.class);
-						if (bikeToEdit != null && bikeToEdit.getId() == bikeId) {
-							bikeToEdit = userServ.updateBike(bikeToEdit);
-							if(bikeToEdit != null)
-								ctx.json(bikeToEdit);
-							else {
-								ctx.status(404);
-								ctx.result("Id doesn't exist.");
-							}
-						}else {
+					put(ctx -> {
+						try {
+							int bikeId = Integer.parseInt(ctx.pathParam("id"));
+							Bike bikeToEdit = ctx.bodyAsClass(Bike.class);
+							if (bikeToEdit != null && bikeToEdit.getId() == bikeId) {
+								bikeToEdit = userServ.updateBike(bikeToEdit);
+								if (bikeToEdit != null)
+									ctx.json(bikeToEdit);
+								else {
+									ctx.status(404);
+									ctx.result("Id doesn't exist.");
+								}
+							} else {
 								ctx.status(HttpCode.CONFLICT);
-						}}catch(NumberFormatException e) {
+							}
+						} catch (NumberFormatException e) {
 							ctx.status(400);
 							ctx.result("Invalid, enter a number");
 						}
 					});
 				});
-				path("/bike?brand=",() ->{
-					get(ctx ->{
+				path("/bike?brand=", () -> {
+					get(ctx -> {
 						String bikeBrand = ctx.queryParam("brand");
 						if (bikeBrand != null && !"".equals(bikeBrand)) {
 							Set<Bike> bikesFound = userServ.getBikeByBrand(bikeBrand);
 							ctx.json(bikesFound);
-						}else {
+						} else {
 							Set<Bike> bikesfound = userServ.viewAvailableBikes();
-							
+
 							ctx.json(bikesfound);
-							}
-						});
+						}
+					});
 				});
-				path("/bike?Color=",() ->{
-					get(ctx ->{
+				path("/bike?Color=", () -> {
+					get(ctx -> {
 						String bikeColor = ctx.queryParam("bikeColor");
 						if (bikeColor != null && !"".equals(bikeColor)) {
 							Set<Bike> bikesFound = userServ.getBikeByColor(bikeColor);
 							ctx.json(bikesFound);
-						}else {
+						} else {
 							Set<Bike> bikesFound = userServ.viewAvailableBikes();
 							ctx.json(bikesFound);
 						}
@@ -102,30 +104,11 @@ public class App {
 				});
 			});
 		});
-	}}		
-				
-				
-	
-	/*
-	 what endpoints do we need?
-	 in other words, what actions would a user need to do
-	 and what address + HTTP method combo would represent
-	 each of those actions?
-	 (in your p0, these endpoints are provided to you.)
-	*/
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+	}
+}
+
+/*
+ * what endpoints do we need? in other words, what actions would a user need to
+ * do and what address + HTTP method combo would represent each of those
+ * actions? (in your p0, these endpoints are provided to you.)
+ */
